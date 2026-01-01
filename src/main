@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # ===============================
-# PATH GAMBAR
+# PATH GAMBAR DATASET
 # ===============================
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 IMAGE_PATH = os.path.join(BASE_DIR, "..", "dataset", "jalan-1.jpg")
