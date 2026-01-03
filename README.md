@@ -1,84 +1,102 @@
 ﻿# 🛣️ Aplikasi Deteksi Jalan Berlubang  
 **Ujian Akhir Semester – Pengolahan Citra Digital**
 
-Aplikasi ini merupakan proyek UAS mata kuliah **Pengolahan Citra Digital (PCGK)** yang bertujuan untuk mendeteksi dan menganalisis kondisi jalan berlubang menggunakan teknik pengolahan citra digital klasik, tanpa menggunakan deep learning.
+Aplikasi ini merupakan proyek UAS mata kuliah **Pengolahan Citra Digital (PCGK)** yang bertujuan untuk mendeteksi dan menganalisis kondisi jalan berlubang.
 
 ---
 
 ## 🎯 Tujuan Proyek
-- Mendeteksi keberadaan lubang pada permukaan jalan dari citra digital
-- Menghitung tingkat kerusakan jalan berdasarkan luas area lubang
-- Mengklasifikasikan kondisi jalan menjadi:
-  - Sangat Baik (< 3% kerusakan)
-  - Rusak Sedang (3-15% kerusakan)
-  - Rusak Parah (> 15% kerusakan)
-- Menampilkan hasil analisis secara visual dan informatif melalui antarmuka web
+
+* **Mendeteksi** keberadaan lubang pada permukaan jalan secara otomatis dari citra digital.
+* **Menghitung** tingkat kerusakan jalan berdasarkan persentase luas area lubang terhadap jalan.
+* **Mengklasifikasikan** kondisi jalan menjadi:
+    * 🟢 **Sangat Baik / Aman** (< 3% kerusakan)
+    * 🟡 **Rusak Sedang / Waspada** (3-15% kerusakan)
+    * 🔴 **Rusak Parah / Kritis** (> 15% kerusakan)
+* **Menampilkan** hasil analisis secara visual, informatif, dan *real-time* melalui antarmuka web modern.
 
 ---
 
-## 🧠 Metode Pengolahan Citra
-Aplikasi ini menerapkan tahapan pengolahan citra digital sebagai berikut:
+## 🧠 Metode Pengolahan Citra (Hybrid Pipeline)
 
-1. **Resize Citra** – Standarisasi ukuran (800x600)
-2. **Region of Interest (ROI)** – Fokus pada area aspal
-3. **Bilateral Filter** – Menghilangkan bayangan halus tapi jaga tepi lubang
-4. **CLAHE** – Meningkatkan kontras area gelap
-5. **Adaptive Threshold** – Segmentasi lubang
-6. **Operasi Morfologi** – Menyambung kontur yang terpecah
-7. **Deteksi Kontur** – Menemukan setiap lubang
-8. **Filter Solidity & Rasio** – Mengeliminasi noise
-9. **Klasifikasi Ukuran** – Kategori lubang (kecil/sedang/besar)
-10. **Scoring Kondisi** – Penilaian keseluruhan
+Aplikasi ini menerapkan tahapan pengolahan citra digital yang telah dimodernisasi:
+
+1.  **Auto-Resize** – Standarisasi ukuran citra (Max dimensi 1000px) untuk performa optimal.
+2.  **CLAHE (Preprocessing)** – Meningkatkan kontras area gelap agar tekstur aspal lebih jelas.
+3.  **YOLOv8 Inference (AI)** – Mendeteksi *Region of Interest (ROI)* atau lokasi keberadaan lubang.
+4.  **Gaussian Blur** – Menghilangkan *noise* (bintik halus/kerikil) pada area aspal.
+5.  **Inverse Thresholding** – Segmentasi memisahkan lubang (gelap) dari aspal (terang).
+6.  **Deteksi Kontur** – Menggambar garis tepi lubang secara presisi.
+7.  **Aspect Ratio Filter** – Mengeliminasi deteksi palsu (bukan lubang) berdasarkan rasio dimensi.
+8.  **Scoring Kondisi** – Perhitungan statistik total untuk penentuan status jalan.
 
 ---
 
 ## 🖥️ Fitur Aplikasi
+
 ✨ **Modern & Responsive UI**
-- Upload citra jalan dengan drag-and-drop
-- Desain feminine modern dengan warna gradient
-- Antarmuka yang user-friendly
+* Upload citra jalan dengan drag-and-drop atau input Kamera langsung.
+* Desain **"Safety Theme"** (Black & Yellow) yang profesional sesuai standar industri.
+* Antarmuka *user-friendly* berbasis Streamlit.
 
 📊 **Analisis Komprehensif**
-- Status kondisi jalan
-- Persentase kerusakan dengan circular progress
-- Jumlah lubang per kategori (kecil/sedang/besar)
-- Total lubang yang terdeteksi
+* Status kondisi jalan (Aman/Waspada/Bahaya).
+* Persentase kerusakan presisi hingga dua desimal.
+* Statistik jumlah lubang per kategori (Kecil/Sedang/Besar).
 
-🔬 **Visualisasi Proses**
-- ROI (Region of Interest)
-- Grayscale + CLAHE
-- Adaptive Threshold
-- Morfologi (hasil akhir)
-- Citra dengan kontur yang terdeteksi
+🔬 **Visualisasi Proses (Debugging)**
+* Melihat proses di balik layar ("Dapur" Computer Vision).
+* Visualisasi layer: *Crop RGB*, *Binary Mask*, dan *Contour Detection*.
+
+📥 **Export Data**
+* Unduh hasil analisis dalam format CSV untuk pelaporan.
 
 ---
 
 ## ⚡ Tech Stack
-- **Backend:** Flask (Python)
-- **Image Processing:** OpenCV, NumPy
-- **Frontend:** Bootstrap 5 + Custom CSS
-- **Icons:** Font Awesome 6.4
+
+* **Backend & Frontend:** Python (Streamlit)
+* **Deep Learning:** Ultralytics YOLOv8 (Custom Trained)
+* **Image Processing:** OpenCV, NumPy
+* **Data Handling:** Pandas
 
 ---
 
-## 💡 Tips
-- Gunakan gambar jalan yang jelas untuk hasil terbaik
-- Pastikan pencahayaan cukup untuk deteksi optimal
-- Foto tegak lurus ke permukaan jalan memberikan hasil lebih baik
-- Gunakan resolusi minimal 640x480 pixel
+## 💡 Tips Penggunaan
+
+* Gunakan gambar jalan yang jelas untuk hasil terbaik.
+* Pastikan pencahayaan cukup; bayangan pohon yang terlalu gelap dapat mempengaruhi akurasi pengukuran area.
+* Foto tegak lurus ke permukaan jalan memberikan hasil perhitungan dimensi yang lebih akurat.
+* Gunakan resolusi minimal 640x480 pixel.
 
 ---
+
+## 👥 Tim Pengembang (Kelompok 3)
+
+Proyek ini dikerjakan oleh 12 anggota dengan pembagian tugas spesifik pada modul *Deep Learning*, *Computer Vision Logic*, *Frontend Interface*, dan *Data Reporting*.
+
+1. Khairunnisa Labibah
+2. Andre Saputra
+3. Andhika Pratama
+4. Adzka Dzikri
+5. M. Farid Febriansyah
+6. Primanda Suryawan
+7. Sabtina Arinda Inayah
+8. Hafizh 'Abid Khalish
+9. Dewi Siti Jamilah
+10. Faiz Lintang Prawira
+11. Sunan Maulana
+12. Rifki Destrizal Nugraha
 
 ## 📂 Struktur Folder
 
-```text
-PCGK-UAS/
-├── app.py
-├── src/
-│   └── main.py
-├── dataset/
-├── .gitignore
-├── requirements.txt
-└── README.md
-
-
+road hole detection/
+├── 📂 notebook/
+│    └── 📄 Logic_Yolov8.ipynb
+├── 📂 __pycache__/          
+├── 📄 .gitignore
+├── 📄 best.pt
+├── 📄 logic.py
+├── 📄 README.md
+├── 📄 requirements.txt
+└── 📄 web.py
