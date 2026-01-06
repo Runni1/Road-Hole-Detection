@@ -128,7 +128,24 @@ st.markdown("""
 # ==========================================
 # 3. LOAD MODEL
 # ==========================================
-model, status_msg = logic.load_model()
+import os
+from ultralytics import YOLO
+
+@st.cache_resource
+def load_local_model():
+    try:
+        # Mencari folder dimana file web.py ini berada
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        # Gabungkan folder itu dengan nama file model
+        model_path = os.path.join(current_dir, 'best.pt')
+        
+        # Load Model
+        model = YOLO(model_path)
+        return model, "Model Utama (v1.0)"
+    except Exception as e:
+        return None, f"Error: {e}"
+
+model, status_msg = load_local_model()
 
 # ==========================================
 # 4. HEADER UI
